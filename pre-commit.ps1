@@ -6,7 +6,7 @@ param (
     $TestNamesRegex = "null"
 )
 
-$TAG = "latest"
+$TAG = "main"
 docker run --rm -v ${pwd}:/lint -w /lint ghcr.io/antonbabenko/pre-commit-terraform:$TAG run -a
 
 $tests = Get-ChildItem -Recurse -Filter '*.tftest.hcl' -File | Sort-Object
@@ -28,7 +28,7 @@ $tests | ForEach-Object -Parallel {
     }
     Write-Output "Running test: $($_.FullName)"
     terraform init -upgrade
-    terraform validate
+    terraform validate -force
     terraform test
     $currentLocation = Get-Location
     if ($currentLocation -ne $startingLocation) {
