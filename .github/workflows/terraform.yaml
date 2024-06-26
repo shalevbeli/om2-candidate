@@ -1,0 +1,27 @@
+name: "Terraform"
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - release/*
+  pull_request:
+    branches: [main, develop, release/*]
+    types: [opened, labeled, synchronize]
+  workflow_dispatch:
+
+permissions: 
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  terraform:
+    uses: jivygroup/om2-github-workflows/.github/workflows/terraform.yaml@main
+    secrets: inherit
+    with:
+      workspace-name: terraform-template-workspace
