@@ -48,12 +48,12 @@ resource "aws_instance" "my-server" {
 
     user_data = <<EOF
     <powershell>
-        $computername = ${var.instance_name}
-        Rename-Computer -ComputerName $computername -Force;
-        $windowsFeatures = ${var.windows-features} -split ","
+        $computername = ${var.instance_name};
+        Rename-Computer -NewName $computername -Force;
+        $windowsFeatures = ${var.windows-features} -split ",";
 
         foreach ($feature in $windowsFeatures){
-            Install-WindowsFeature -name $feature -IncludeManagementTools;
+            Install-WindowsFeature -name $feature;
         }
 
         shutdown -r -t 5;
