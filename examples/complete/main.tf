@@ -48,12 +48,18 @@ resource "aws_instance" "my-server" {
 
     user_data = <<EOF
     <powershell>
+<<<<<<< HEAD
         # Setting the machine name
         $computername = ${var.instance_name};
         Rename-Computer -NewName $computername -Force;
 
         # Setting up the list of features to be installed
         $windowsFeatures = ${var.windows-features} -split ",";
+=======
+        $computername = ${var.instance_name}
+        Rename-Computer -NewName $computername -Force;
+        $windowsFeatures = ${var.windows-features} -split ","
+>>>>>>> 795602c46f6632cf4da4500e75726679c6746cd1
 
         foreach ($feature in $windowsFeatures){
             Install-WindowsFeature -name $feature;
