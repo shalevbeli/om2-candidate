@@ -13,9 +13,3 @@ output "Dns-name" {
     value = aws_instance.my-server.public_dns
     description = "My server public dns"
 }
-
-output "user_data_script" {
-    value = aws_instance.my-server.user_data
-    description = "making sure the scripts runs and works correctly"
-  
-}
