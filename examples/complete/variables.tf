@@ -21,15 +21,17 @@ variable "instance_name" {
 variable "key_name" {
     default = "key_name"
     description = "Key used to connect to the machine"
+    type = string
 }
 variable "windows-sg" {
     default = "windows-sg"
     description = "create security group for the machine so we can connect"
+    type = string
 }
 variable "windows-features" {
-    default = "Web-Server" 
+    default = [ "Web-Server" ] 
     description = "A list of all the windows feature we want to install * seperated by ,"
-    type = string
+    type = list(string)
   
 }
 variable "ingress-port" {

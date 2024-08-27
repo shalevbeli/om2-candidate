@@ -23,6 +23,13 @@ resource "aws_security_group" "windows-sg" {
         cidr_blocks = ["0.0.0.0/0"]
         description = "Allow incoming RDP connections"
     }
+    ingress {
+        from_port   = 5986
+        to_port     = 5986
+        protocol    = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+        description = "Allow winrm connections"
+    }
 
     egress {
         from_port   = 0
@@ -48,18 +55,22 @@ resource "aws_instance" "my-server" {
 
     user_data = <<EOF
     <powershell>
-    # Setting the machine name
-    $computername = ${var.instance_name};
-    Rename-Computer -NewName $computername -Force;
+    # Wait for the VM to fully load.
+    Start-Sleep -Seconds 60
+    
+    # Setting the machine name 
+    Rename-Computer -NewName ${var.instance_name}; -Force
+    write-host ${var.instance_name}
 
     # Setting up the list of features to be installed
-    $windowsFeatures = ${var.windows-features} -split ",";
+    $windowsFeatures = @(${join(",", var.windows-features)})
+    write-host $windowsFeatures
 
     foreach ($feature in $windowsFeatures){
-        Install-WindowsFeature -name $feature;
+        Install-WindowsFeature -name $feature
     }
 
-    shutdown -r -t 5;
+    Restart-Computer -Force
     </powershell>
     EOF
 }
