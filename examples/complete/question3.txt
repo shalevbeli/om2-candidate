@@ -1,5 +1,0 @@
-The solution I can offer to this question is using one of the following options:
-AWS Secret Manager
-AWS S3 bucket
-
-The preferred way I would go is using the secret manager to keep my user information private as much as I can.

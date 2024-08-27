@@ -1,4 +1,4 @@
-.\Powershell-codes\question2.ps1
+Import-Module -Name .\Powershell-codes\question2.ps1
 
 $newName = Read-Host "Enter the new name for the host"
 $username = Read-Host "Enter the username for the server (should be Administrator)"
